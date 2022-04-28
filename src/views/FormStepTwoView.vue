@@ -1,0 +1,61 @@
+<template>
+  <div>
+    <h1>formTwo</h1>
+      
+      <FormStepper/>
+      <div class="form__delivery">
+        <h2 class="form__title">運送方式</h2>
+        <label class="form-group form__delivery--normal" for="normal">
+          <input 
+            v-model="deliveryInfo.fee"
+            type="radio" id="normal" name="delivery" value="免費">
+          <span>標準運送</span>
+          <span>約3~7個工作天</span>
+          <span>免費</span>
+        </label>
+        <label class="form-group form__delivery--DHL" for="DHL">
+          <input 
+            v-model="deliveryInfo.fee"
+            type="radio" id="DHL" name="delivery" value="$500">
+          <span>DHL貨運</span>
+          <span>48小時內送達</span>
+          <span>$500</span>
+        </label>
+      </div>
+
+      <div class="control">
+        <router-link to="/" class="btn control--prev">&larr; 上一步</router-link>
+        <router-link
+          class="btn control--next"
+          to="/form3"
+        >下一步 &rarr;</router-link>
+      </div>
+
+  </div>
+</template>
+
+<script>
+import FormStepper from './../components/FormStepper.vue';
+
+export default {
+  data(){
+    return {
+      deliveryInfo: {
+        fee: ''
+      }
+    }
+  },
+  components: {
+    FormStepper
+  },
+  mounted(){
+    this.deliveryInfo = JSON.parse(localStorage.getItem('deliveryInfo')) || this.deliveryInfo
+  },
+  beforeDestroy(){
+    const userInputs = this.deliveryInfo
+    localStorage.setItem('deliveryInfo',JSON.stringify(userInputs))
+    this.$emit('leaveFormTwo',this.deliveryInfo)
+  }
+}
+</script>
+
