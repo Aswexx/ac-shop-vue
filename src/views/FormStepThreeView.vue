@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>formThree</h1>
+  <form action="" class="form theme-default">
       <FormStepper/>
 
       <div class="form__payment hidden">
@@ -8,7 +7,7 @@
         <div class="form-group form__payment--card-name">
           <label for="card-name">持卡人姓名</label>
           <input 
-            v-model="paymentInfo.name"
+            v-model="paymentInfo.cardName"
             type="text" id="card-name" placeholder="請輸入持卡人姓名">
         </div>
         <div class="form-group form__payment--card-num">
@@ -31,6 +30,8 @@
         </div>
       </div>
 
+      <ShopCart/>
+
       <div class="control">
         <router-link to="/form2" class="btn control--prev">&larr; 上一步</router-link>
         <button
@@ -39,17 +40,19 @@
         >確認下單</button>
       </div>
 
-  </div>
+  </form>
 </template>
 
 <script>
 import FormStepper from './../components/FormStepper.vue';
+import ShopCart from './../components/ShopCart.vue'
+
 
 export default {
   data(){
     return {
       paymentInfo: {
-        name: '',
+        cardName: '',
         cardNum: '',
         validDate: '',
         CVC: '',
@@ -58,14 +61,14 @@ export default {
   },
   methods: {
     handleSubmit(){
-      confirm('確定下單?')
+      if (!confirm('確定下單?')) return
       this.$emit('userSubmit',this.paymentInfo)
       this.paymentInfo =""
       this.$router.push({path:"/"})
     }
   },
   components: {
-    FormStepper
+    FormStepper,ShopCart
   },
   mounted(){
     this.paymentInfo = JSON.parse(localStorage.getItem('paymentInfo')) || this.paymentInfo

@@ -72,4 +72,17 @@ export default {
   }
 }
 
+
+div.active {
+  border: 1px solid purple !important;
+  span {
+    color: purple !important;
+  }
+}
+
+span.active {
+  color: purple !important;
+}
+
+
 </style>

@@ -2,43 +2,139 @@
 
   <div class="shop-cart">
       <h3 class="shop-cart__title">購物籃</h3>
-      <div class="shop-cart__item" data-id="1">
-        <img src="./../assets/image/product-1@2x.png" alt="product" class="shop-cart__product-img">
-        <span class="shop-cart__product-title">破壞補丁修身牛仔褲</span>
+
+      <div
+        class="shop-cart__item" 
+
+        v-for="product in products"
+        :key='product.id'>
+
+        <img 
+          :src="product.src" 
+          
+          alt="product" class="shop-cart__product-img">
+        <span class="shop-cart__product-title">
+          {{product.title}}
+          </span>
         <div class="shop-cart__product-counter">
-          <div class="counter-btn minus">-</div>
-          <span class="quantity">1</span>
-          <div class="counter-btn plus">+</div>
+          <div class="counter-btn minus"
+            @click="decrease(product.id)"
+          >-</div>
+          <span class="quantity">
+            {{product.quantity}}
+            </span>
+          <div class="counter-btn plus"
+            @click="increase(product.id)"
+          >+</div>
         </div>
-        <div class="shop-cart__item-price">$1,299</div>
+        <div class="shop-cart__item-price">
+          {{ product.quantity*product.price | thousandth}}
+          </div>
       </div>
-      <div class="shop-cart__item" data-id="2">
-        <img src="./../assets/image/product-2@2x.png" alt="product" class="shop-cart__product-img">
-        <span class="shop-cart__product-title">刷色直筒牛仔褲</span>
-        <div class="shop-cart__product-counter">
-          <div class="counter-btn minus">-</div>
-          <span class="quantity">1</span>
-          <div class="counter-btn plus">+</div>
-        </div>
-        <div class="shop-cart__item-price">$3,999</div>
-      </div>
+
+
 <!------------------------------------------------ ---------------------------------->
 <!----------------------------------------------------------------------------------->
       
       <div class="shop-cart__amount">
-        <div class="form-row-spacebetween">
+        <div class="">
           <span class="shop-cart__amount-text">運費</span>
-          <span class="shop-cart__delivery-fee">免費</span>
+          <span class="shop-cart__delivery-fee">{{deliveryFee | thousandth}}</span>
         </div>
-        <div class="form-row-spacebetween">
+        <div class="">
           <span class="shop-cart__amount-text">小計</span>
-          <span class="shop-cart__total">$3,998</span>
+          <span class="shop-cart__total">{{totalPirce | thousandth}}</span>
         </div>
       </div>
     </div>
 
 </template>
+<script>
+const dummyData = {
+  products: [
+  {
+    id: '1',
+    title: '破壞補丁修身牛仔褲',
+    src: require('./../assets/image/product-1@2x.png'),
+    price: 1299,
+    quantity: 1,
+  },
+  {
+    id: '2',
+    title: '刷色直筒牛仔褲',
+    src: require('./../assets/image/product-2@2x.png'),
+    price: 3999,
+    quantity: 1,
+  }]
+}
 
+
+export default {
+  data(){
+    return {
+      products: [],
+      deliveryFee: '',
+    }
+  },
+  methods: {
+    increase(id){
+      this.products.find(product => product.id === id)
+      .quantity++
+    },
+    decrease(id){
+      const item = 
+      this.products.find(product => product.id === id)
+      
+      if (item.quantity === 1) return
+      item.quantity--
+    },
+    getDeliveryFee(data){
+      this.deliveryFee = data
+    },
+    reset(){
+      this.products.forEach(e => {
+        e.quantity = 1
+      })
+    }
+  },
+  computed: {
+    totalPirce(){
+      let sum = 0
+      this.products.forEach(e => {
+        sum += e.quantity * e.price
+      })
+
+      if (isNaN(Number(this.deliveryFee))){
+        return sum
+      }
+      return sum + Number(this.deliveryFee)
+      
+    }
+  },
+  filters: {
+    thousandth(num){
+      if (isNaN(Number(num))){
+        return num
+      }
+      return `$${num.toLocaleString()}`
+    }
+  },
+  created(){
+    this.products = dummyData.products
+  },
+  mounted(){
+    this.$bus.$on('passDeliveryFee',this.getDeliveryFee)
+    this.$bus.$on('afterCheck',this.reset)
+  },
+  updated(){
+    this.$bus.$emit('handleTotalPrice',this.totalPirce)
+  },
+  beforeDestroy(){
+    this.$bus.$off('passDeliveryFee',this.getDeliveryFee)
+    this.$bus.$off('afterCheck',this.reset)
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import "./../assets/scss/variables.scss";

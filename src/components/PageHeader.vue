@@ -10,11 +10,11 @@
     
     <transition name="fade">
       <nav class="nav" v-show="width > 375 || isTriggered">
-        <a class="pd-v-sm" href="#">男款</a>
-        <a class="pd-v-sm" href="#">女款</a>
-        <a class="pd-v-sm" href="#">最新消息</a>
-        <a class="pd-v-sm" href="#">客製商品</a>
-        <a class="pd-v-sm" href="#">聯絡我們</a>
+        <a href="#">男款</a>
+        <a href="#">女款</a>
+        <a href="#">最新消息</a>
+        <a href="#">客製商品</a>
+        <a href="#">聯絡我們</a>
       </nav>
 
     </transition>
@@ -73,16 +73,20 @@ header {
   grid-template-columns: 10% 80%;
   justify-items: center;
 
+  position: fixed;
+  left: 2.5%;
+  right: 2.5%;
+  top: 1.5%;
+  z-index: 199;
+  background-color: white;
+
   @include respond($bp-first){
     max-width: 1110px;
-
-    
     grid-template-columns: repeat(12,1fr);
     grid-gap: $col-gap;
     align-items: center;
   }
 }
-
 
 .nav-trigger {
   cursor: pointer;
@@ -93,7 +97,6 @@ header {
     display: none;
   }
 }
-
 
 .logo {
   @include respond($bp-first){
@@ -112,6 +115,8 @@ header {
 
   a {
     display: block;
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
     text-align: center;
   }
   @include respond($bp-first){
@@ -139,7 +144,9 @@ header {
     cursor: pointer;
     width: 2.4rem;
     height: 2.4rem;
-    margin: 0 2rem 0 0;
+    &:nth-of-type(2n){
+      margin: 0 5rem;
+    }
     
     @include themify(){
       fill: themed('fc');
@@ -147,14 +154,11 @@ header {
   }
 }
 
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity .3s ease-in;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
-
-
 
 </style>
