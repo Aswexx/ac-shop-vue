@@ -1,8 +1,11 @@
 # ac-shop-vue
 
-## Project setup
+## Project setup & Run
 ```
+git clone https://github.com/Aswexx/ac-shop-vue.git
+cd ac-shop-vue
 npm install
+npm run serve
 ```
 
 ### Compiles and hot-reloads for development
