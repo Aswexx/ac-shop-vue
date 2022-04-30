@@ -1,11 +1,13 @@
 <template>
-  <header class="header theme-default">
+
+  <header class="header">
     
     <div class="nav-trigger" @click='toggleNav'>
       <span class="nav-trigger-icon">&nbsp;</span> 
     </div>
     <div class="logo">
-      <img src="./../assets/image/logo@2x.png" alt="logo" class="logo">
+      <img v-if="!isDarkMode" src="./../assets/image/logo@2x.png" alt="logo" class="logo">
+      <img v-else src="./../assets/image/logo-dark@2x.png" alt="logo" class="logo">
     </div>
     
     <transition name="fade">
@@ -49,6 +51,7 @@ export default {
     },
     switchTheme(){
       this.isDarkMode = !this.isDarkMode
+      this.$emit('switchDisplayMode')
     }
   },
   mounted() {
@@ -63,11 +66,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "./../assets/scss/variables.scss";
-@import "./../assets/scss/utilities.scss";
 
 header {
   width: 95%;
-  border: 1px solid red;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 10% 80%;
@@ -78,7 +79,9 @@ header {
   right: 2.5%;
   top: 1.5%;
   z-index: 199;
-  background-color: white;
+  @include themify(){
+    background-color: themed('bg');
+  }
 
   @include respond($bp-first){
     max-width: 1110px;
@@ -91,7 +94,6 @@ header {
 .nav-trigger {
   cursor: pointer;
   width: 30px;
-  border: 1px solid green;
   
   @include respond($bp-first){
     display: none;
@@ -100,7 +102,11 @@ header {
 
 .logo {
   @include respond($bp-first){
-    grid-column: 6/8;
+    grid-column: 1/6;
+    grid-row: 1/2;
+  }
+  @include respond($bp-second){
+    grid-column: 6/9;
   }
 }
 
@@ -117,16 +123,28 @@ header {
     display: block;
     padding-top: 1.6rem;
     padding-bottom: 1.6rem;
+    font-weight: bold;
     text-align: center;
+    transition: color .2s ease-in;
+
+    &:hover {
+      @include themify(){
+        color: themed('fc-light')
+      }
+    }
   }
   @include respond($bp-first){
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    grid-column: 1/5;
-    grid-row: 1/2;
+    grid-column: 1/-1;
+    grid-row: 2/3;
     margin-top: 0rem;
     margin-bottom: 0rem;
+  }
+  @include respond($bp-second){
+    grid-column: 1/6;
+    grid-row: 1/2;
   }
 }
 
@@ -136,6 +154,7 @@ header {
 
   @include respond($bp-first){
     grid-column: 10/-1;
+    grid-column: 8/-1;
     grid-row: 1/2;
     justify-self: end;
   }
@@ -144,12 +163,18 @@ header {
     cursor: pointer;
     width: 2.4rem;
     height: 2.4rem;
+    transition: fill .2s ease-in;
     &:nth-of-type(2n){
-      margin: 0 5rem;
+      margin: 0 4rem;
     }
     
     @include themify(){
       fill: themed('fc');
+    }
+    &:hover {
+      @include themify(){
+        fill: themed('fc-light');
+      }
     }
   }
 }

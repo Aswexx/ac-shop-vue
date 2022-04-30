@@ -1,8 +1,11 @@
 <template>
-  <div id="app">
-    <PageHeader/>
 
-    <br>
+<div :class="isDarkMode ? 'theme-dark' : 'theme-default'">
+  <div id="app">
+    <PageHeader
+      @switchDisplayMode='switchDisplayMode'
+    />
+
     <br>
 
       <router-view
@@ -10,13 +13,17 @@
         @leaveFormTwo='saveDeliveryInfo'
         @userSubmit='handleSubmitData'
       />
-    <PageFooter/>
+    <PageFooter
+      :isDarkMode='isDarkMode'
+    />
 
     <OrderModal 
       :orderInfo="orderInfo"
-      @closeModal="modalAppear=false"
+      @closeModal="closeModal"
       v-show="modalAppear"/>
   </div>
+
+</div>
 </template>
 
 <script>
@@ -33,7 +40,7 @@ export default {
       },
       paymentInfo: '',
       modalAppear: false,
-      currentStep: 1,
+      isDarkMode: false,
     }
   },
   methods: {
@@ -63,6 +70,13 @@ export default {
       this.modalAppear = true
       localStorage.clear()
     },
+    switchDisplayMode(){
+      this.isDarkMode = !this.isDarkMode
+    },
+    closeModal(){
+      this.modalAppear = false
+      window.location.reload()
+    },
   },
   computed: {
     orderInfo(){
@@ -89,5 +103,11 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/base.scss';
+
+#app {
+  @include themify(){
+    background-color: themed('bg');
+  }
+}
 
 </style>

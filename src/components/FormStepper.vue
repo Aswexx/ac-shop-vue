@@ -1,19 +1,24 @@
 <template>
   <div class="stepper">
-    <div class="stepper__circle stepper__circle--1"><span>1</span></div>
-    <span class="stepper__text">寄送地址</span>
-    <div class="stepper__line"></div>
-    <div class="stepper__circle stepper__circle--2"><span>2</span></div>
-    <span class="stepper__text">運送方式</span>
-    <div class="stepper__line"></div>
-    <div class="stepper__circle stepper__circle--3"><span>3</span></div>
-    <span class="stepper__text">付款資訊</span>
+    <div class="stepper__circle stepper__circle--1" :class="{active: currentStep <= 3}"><span>1</span></div>
+    <span class="stepper__text" :class="{active: currentStep <= 3}">寄送地址</span>
+    <div class="stepper__line" :class="{active: currentStep >= 2}"></div>
+    <div class="stepper__circle stepper__circle--2" :class="{active: currentStep >= 2}"><span>2</span></div>
+    <span class="stepper__text" :class="{active: currentStep >= 2}">運送方式</span>
+    <div class="stepper__line" :class="{active: currentStep === 3}"></div>
+    <div class="stepper__circle stepper__circle--3" :class="{active: currentStep === 3}"><span>3</span></div>
+    <span class="stepper__text" :class="{active: currentStep === 3}">付款資訊</span>
   </div>
 </template>
 
 <script>
 export default {
-  
+  data(){
+    return {
+      active: true,
+    }
+  },
+  props:['currentStep'],
 }
 </script>
 
@@ -33,17 +38,17 @@ export default {
     font-size: 1.6rem;
 
     @include themify() {
-      color: themed('fc');
+      color: rgba(themed('fc-light'),.3);
     }
 
-    @include respond($bp-second) {
+    @include respond($bp-third) {
       display: inline-block;
     }
   }
 
   &__line {
     @include themify() {
-      background-color: themed('fc');
+      background-color: rgba(themed('fc-light'),.3);
     }
 
     width: 6rem;
@@ -55,7 +60,7 @@ export default {
     height: 3.2rem;
     border-radius: 50%;
     @include themify(){
-      border: 1px solid themed('border-color-light');
+      border: 1px solid rgba(themed('fc-light'),.3);
     }
     @include flexCenter;
 
@@ -66,23 +71,26 @@ export default {
 
     span {
       @include themify() {
-        color: themed('fc');
+        color: rgba(themed('fc-light'),.3);
       }
     }
   }
 }
 
-
 div.active {
-  border: 1px solid purple !important;
+  @include themify(){
+    border: 1px solid themed('step-active');
+  }
   span {
-    color: purple !important;
+    @include themify(){
+      color: themed('step-active');
+    }
   }
 }
 
 span.active {
-  color: purple !important;
+  @include themify(){
+    color: themed('step-active');
+  }
 }
-
-
 </style>

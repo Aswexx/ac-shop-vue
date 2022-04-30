@@ -29,20 +29,22 @@ $dm-border-color-light: #e5e5e5;
 
 $themes:(default: (bg: $bg-color-primary,
     bg-secondary: $bg-color-secondary,
-    fc: red,
+    fc: $fc-main,
     fc-label: $fc-label,
     fc-light: $fc-light,
     btn-color-gray: $btn-color-gray,
     border-color-main: $border-color-main,
-    border-color-light: $border-color-light),
+    border-color-light: $border-color-light,
+    step-active:black),
   dark: (bg: $dm-bg-color-primary,
     bg-secondary: $dm-bg-color-secondary,
-    fc: blue,
+    fc: $dm-fc-main,
     fc-label: $dm-fc-label,
     fc-light: $dm-fc-light,
     btn-color-gray: $dm-btn-color-gray,
     border-color-main: $dm-border-color-main,
-    border-color-light: $dm-border-color-light),
+    border-color-light: $dm-border-color-light,
+    step-active:white),
 );
 
 @mixin themify($themes: $themes) {
@@ -75,30 +77,14 @@ $col-gap: calc(30 / 1110 * 100%);
 //
 //// RWD ////
 $bp-first: 375px;
-$bp-second: 850px;
+$bp-second: 768px;
+$bp-third: 935px;
 
 @mixin respond($breakpoint) {
   @media screen and (min-width:$breakpoint) {
     @content
   }
 };
-
-
-
-////
-
-// @mixin showNav() {
-//   transform: scale(1, 1);
-
-//   a {
-//     color: rgba($gray-dark, 1);
-//   }
-// }
-
-// @mixin showFeatures() {
-//   transform: scale(1, 1);
-//   opacity: 1;
-// }
 
 @mixin flexCenter() {
   display: flex;
@@ -123,37 +109,3 @@ $bp-second: 850px;
     z-index: -1;
   }
 }
-
-
-// // help class //
-
-// .form-row-spacebetween {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// // 用來切換顯示不同階段的 form
-// .hidden {
-//   display: none !important
-// }
-
-// // // 用來切換不同階段的 stepper 變深色
-// // div.darken {
-// //   color: $gray-dark !important;
-// //   border: 1px solid $gray-dark !important;
-
-// //   span {
-// //     color: $gray-dark !important;
-// //   }
-// // }
-
-// // span.darken {
-// //   color: $gray-dark !important;
-// // }
-
-// // ////////////////////////////////////
-
-// // 導覽開啟時蓋滿整頁
-// .extend {
-//   height: 100vh;
-// }

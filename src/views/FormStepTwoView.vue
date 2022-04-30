@@ -1,6 +1,6 @@
 <template>
   <form action="" class="form theme-default">
-      <FormStepper/>
+      <FormStepper :currentStep="2"/>
       
       <div class="form__delivery">
         <h2 class="form__title">運送方式</h2>
@@ -47,23 +47,6 @@
 import FormStepper from './../components/FormStepper.vue';
 import ShopCart from './../components/ShopCart.vue'
 
-// const dummyData = {
-//   deliveryPlan: [
-//     {
-//       id: '1',
-//       title: '免費運送',
-//       description:'約3~7個工作天',
-//       fee: '免費'
-//     },
-//     {
-//       id: '2',
-//       title: 'DHL貨運',
-//       description:'48小時內送達',
-//       fee: '$500'
-//     },
-//   ]
-// }
-
 export default {
   data(){
     return {
@@ -72,6 +55,7 @@ export default {
       }
     }
   },
+  props:['currentStep'],
   components: {
     FormStepper,ShopCart
   },
@@ -97,4 +81,3 @@ export default {
   }
 }
 </script>
-

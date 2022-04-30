@@ -1,6 +1,6 @@
 <template>
   <form action="" class="form theme-default">
-      <FormStepper/>
+      <FormStepper :currentStep="3"/>
 
       <div class="form__payment hidden">
         <h2 class="form__title">付款資訊</h2>
@@ -47,7 +47,6 @@
 import FormStepper from './../components/FormStepper.vue';
 import ShopCart from './../components/ShopCart.vue'
 
-
 export default {
   data(){
     return {
@@ -59,9 +58,9 @@ export default {
       }
     }
   },
+  props:['currentStep'],
   methods: {
     handleSubmit(){
-      if (!confirm('確定下單?')) return
       this.$emit('userSubmit',this.paymentInfo)
       this.paymentInfo =""
       this.$router.push({path:"/"})

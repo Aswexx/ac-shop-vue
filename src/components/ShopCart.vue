@@ -140,11 +140,15 @@ export default {
 @import "./../assets/scss/variables.scss";
 
 .shop-cart {
+  @include themify(){
+    color: themed('fc')
+  }
+
   @include respond($bp-first) {
-    grid-column: 7/-1;
+    grid-column: 8/-1;
     grid-row: 1/4;
     @include themify(){
-      border: 1px solid themed('fc')
+      border: 1px solid themed('border-color-light')
     }
     border-radius: 5px;
     padding: 3.5rem 1.6rem 0 1.6rem;
@@ -164,13 +168,25 @@ export default {
     grid-template-rows: repeat(3,min-content);
     grid-row-gap: 1.6rem;
     margin: 1rem 0;
-
-    font-size: 1.6rem;
     
     @include respond($bp-first){
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1.2rem;
+    }
+
+
+    @include respond($bp-second){
+      display: grid;
       margin: 3.4rem 0;
       grid-template-columns: 12rem 1fr min-content;
       grid-auto-rows: min-content;
+      font-size: 1.2rem;
+    }
+
+    @include respond($bp-third){
+      font-size: 1.6rem;
     }
 
     .quantity {
@@ -221,7 +237,7 @@ export default {
       cursor: pointer;
 
       @include themify(){
-        background-color: themed('fc')
+        background-color: themed('btn-color-gray')
       }
 
       &:hover {
@@ -243,15 +259,9 @@ export default {
       display: flex;
       justify-content: space-between;
       @include themify(){
-        border-top: 1px solid themed('border-color-main');
+        border-top: 1px solid themed('border-color-light');
       }
       padding: 1.6rem 0;
-    }
-
-    &-text {
-      @include themify(){
-        color: themed('fc-light')
-      }
     }
   }
 }
